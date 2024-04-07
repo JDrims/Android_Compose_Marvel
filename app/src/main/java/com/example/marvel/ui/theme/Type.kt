@@ -32,3 +32,25 @@ val Typography = Typography(
     )
     */
 )
+
+val HeadingBoxStyle = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight(800),
+    fontSize = 28.sp,
+    color = ColorTextWhite,
+)
+
+val CardTextNameStyle = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight(800),
+    fontSize = 32.sp,
+    color = ColorTextWhite,
+)
+
+val CardTextDescriptionStyle = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight(800),
+    fontSize = 22.sp,
+    color = ColorTextWhiteA90p,
+    lineHeight = 30.sp
+)
