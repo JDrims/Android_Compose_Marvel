@@ -58,3 +58,13 @@ fun ImageBackground() {
         }
     }
 }
+
+class UrlImage(
+    url: String,
+    nameUrl: String,
+    descriptionUrl: String,
+) {
+    val url = url
+    val nameUrl = nameUrl
+    val descriptionUrl = descriptionUrl
+}
