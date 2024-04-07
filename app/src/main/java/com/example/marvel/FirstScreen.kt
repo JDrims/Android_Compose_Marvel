@@ -30,19 +30,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.marvel.ui.theme.CardTextNameStyle
+import com.example.marvel.ui.theme.ColorBackgroundDefault
+import com.example.marvel.ui.theme.ColorLazyRowAF
+import com.example.marvel.ui.theme.HeadingBoxStyle
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import kotlin.math.abs
 
 @Preview
@@ -65,13 +67,13 @@ fun HeadingBox() {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     Column(
         modifier = Modifier
-            .background(Color(0xFF2B272B))
+            .background(ColorBackgroundDefault)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             modifier = Modifier
-                .background(Color(0xFF2B272B))
+                .background(ColorBackgroundDefault)
                 .padding(top = 30.dp, bottom = 20.dp)
                 .width(screenWidth / 2.81F),
             painter = painterResource(id = R.drawable.marvel_logo),
@@ -81,12 +83,7 @@ fun HeadingBox() {
         Text(
             modifier = Modifier
                 .padding(top = 20.dp, bottom = 11.dp),
-            style = TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight(800),
-                fontSize = 28.sp,
-                color = Color(0xFFFFFFFF),
-            ),
+            style = HeadingBoxStyle,
             text = "Choose your hero"
         )
     }
@@ -118,7 +115,7 @@ fun ScreenLazyList(navController : NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .wrapContentHeight()
-            .background(Color(0x00FFFFFF)),
+            .background(color = ColorLazyRowAF),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(-25.dp),
         contentPadding = PaddingValues(start = 30.dp, end = 30.dp),
@@ -126,7 +123,7 @@ fun ScreenLazyList(navController : NavHostController) {
         flingBehavior = flingBehavior,
     ) {
         items(listUrl) {
-
+            Card(state, listUrl.indexOf(it), it, navController)
         }
     }
 }
@@ -152,13 +149,25 @@ fun Card(state: LazyListState, index: Int, listUrl: UrlImage, navController : Na
     Box(
         modifier = Modifier
             .clickable {
-
+                val encodedUrl = URLEncoder.encode("${listUrl.url}", StandardCharsets.UTF_8.toString())
+                navController.navigate(
+                    Screen.SecondScreen.route +
+                            "/${encodedUrl}" +
+                            "/${listUrl.nameUrl}" +
+                            "/${listUrl.descriptionUrl}",
+                ) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
             .width(screenWidth / 1.2F)
             .height(screenHeight / 1.45F)
             .scale(scale)
             .background(
-                color = Color(0xFF2B272B),
+                color = ColorBackgroundDefault,
                 shape = RoundedCornerShape(size = 10.dp),
             )
             .animateContentSize(),
@@ -175,12 +184,7 @@ fun Card(state: LazyListState, index: Int, listUrl: UrlImage, navController : Na
             modifier = Modifier.padding(
                 top = screenHeight / 1.45F / 1.12F - 14.dp, start = 28.dp
             ),
-            style = TextStyle(
-                fontFamily = FontFamily.Default,
-                fontWeight = FontWeight(800),
-                fontSize = 32.sp,
-                color = Color(0xFFFFFFFF),
-            ),
+            style = CardTextNameStyle,
             text = listUrl.nameUrl,
         )
     }

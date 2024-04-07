@@ -12,16 +12,22 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.marvel.ui.theme.ColorDrawRect
+import com.example.marvel.ui.theme.ColorDrawRectRotateL1
+import com.example.marvel.ui.theme.ColorDrawRectRotateL2
+import com.example.marvel.ui.theme.ColorTransparent
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
     private lateinit var navController : NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             navController = rememberNavController()
             ApplySystemBarColors()
@@ -36,8 +42,8 @@ class MainActivity : ComponentActivity() {
 fun ApplySystemBarColors() {
     val systemUiController = rememberSystemUiController()
     SideEffect {
-        systemUiController.setStatusBarColor(Color.Transparent)
-        systemUiController.setNavigationBarColor(Color.Transparent)
+        systemUiController.setStatusBarColor(ColorTransparent)
+        systemUiController.setNavigationBarColor(ColorTransparent)
     }
 }
 
@@ -45,12 +51,12 @@ fun ApplySystemBarColors() {
 fun ImageBackground() {
     Column {
         Canvas(modifier = Modifier.fillMaxSize()) {
-            drawRect(Color(0xFF2B272B))
+            drawRect(ColorDrawRect)
             rotate(degrees = 37.56F) {
                 drawRect(
                     Brush.linearGradient(
                         listOf(
-                            Color(0xFF991518), Color(0xFF941419)
+                            ColorDrawRectRotateL1, ColorDrawRectRotateL2
                         ), Offset(1.0F, 1.0F)
                     ), topLeft = Offset(x = 800F, y = 550F), size = size / 0.9F
                 )

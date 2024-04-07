@@ -17,20 +17,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.marvel.ui.theme.CardTextDescriptionStyle
+import com.example.marvel.ui.theme.CardTextNameStyle
+import com.example.marvel.ui.theme.ColorBackgroundDefault
 
 @Preview
 @Composable
@@ -61,7 +59,7 @@ fun CardFull(navController: NavHostController, listUrl: UrlImage) {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = Color(0xFF2B272B),
+                color = ColorBackgroundDefault,
                 shape = RoundedCornerShape(size = 10.dp),
             )
     ) {
@@ -95,12 +93,7 @@ fun CardFull(navController: NavHostController, listUrl: UrlImage) {
             Text(
                 modifier = Modifier.padding(
                 ),
-                style = TextStyle(
-                    fontFamily = FontFamily.Default,
-                    fontWeight = FontWeight(800),
-                    fontSize = 32.sp,
-                    color = Color(0xFFFFFFFF),
-                ),
+                style = CardTextNameStyle,
                 text = listUrl.nameUrl,
             )
             Text(
@@ -109,13 +102,7 @@ fun CardFull(navController: NavHostController, listUrl: UrlImage) {
                     .padding(
                         top = 15.dp
                     ),
-                style = TextStyle(
-                    fontFamily = FontFamily.Default,
-                    fontWeight = FontWeight(800),
-                    fontSize = 22.sp,
-                    color = Color(0xE6FFFFFF),
-                    lineHeight = 30.sp
-                ),
+                style = CardTextDescriptionStyle,
                 text = listUrl.descriptionUrl,
             )
         }
